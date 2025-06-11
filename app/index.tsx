@@ -3,7 +3,7 @@ import { catEndpoints } from "@/src/domain/catEndpoints";
 import { useTheme } from "@/src/hooks/useTheme";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { FlatList, StyleSheet, View } from "react-native";
+import { FlatList, StyleSheet, TextInput, View } from "react-native";
 
 export default function Index() {
   const { theme } = useTheme();
@@ -17,18 +17,29 @@ export default function Index() {
 
   const getCatsBreeds = async () => {
     const response = await catEndpoints.getCatsBreeds();
-    // console.log(response.data);
     return response.data;
   };
 
   return (
-    <View
-      style={{
-        flex: 1,
-        alignItems: "center",
-        backgroundColor: theme.background,
-      }}
-    >
+    <View style={{ flex: 1, backgroundColor: theme.background }}>
+      <TextInput
+        value={searchText}
+        placeholder="Buscar por nombre"
+        onChangeText={(text) => setSearchText(text)}
+        placeholderTextColor={"gray"}
+        style={{
+          marginTop: 5,
+          borderWidth: 1,
+          borderRadius: 5,
+          marginBottom: 10,
+          height: 35,
+          marginHorizontal: 20,
+          // ...textStyles().body9,
+          paddingHorizontal: 10,
+          backgroundColor: "white",
+        }}
+      />
+
       <FlatList
         numColumns={2}
         data={catBreeds}

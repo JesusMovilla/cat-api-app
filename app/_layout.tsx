@@ -21,7 +21,7 @@ function LayoutWithTheme() {
         <Stack.Screen name="index" options={{ title: "Inicio" }} />
         <Stack.Screen
           name="cat/detail"
-          options={{ title: "Detalle", headerBackTitle: "Volver" }}
+          options={{ title: "", headerBackTitle: "Volver" }}
         />
       </Stack>
     </>

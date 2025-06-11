@@ -1,3 +1,6 @@
+import EntypoIcon from "@expo/vector-icons/Entypo";
+import FAIcon from "@expo/vector-icons/FontAwesome6";
+import MCIcon from "@expo/vector-icons/MaterialCommunityIcons";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React, { useMemo } from "react";
@@ -10,6 +13,7 @@ import {
 } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { CatBreed } from "../interfaces/cat";
+import { getFlagEmoji } from "../lib/utils";
 
 interface CatCardProps {
   cat: CatBreed;
@@ -27,19 +31,32 @@ export default function CatCard(props: CatCardProps) {
   const catImageUrl = useMemo(() => {
     const { image } = cat;
     if (Boolean(image) && Boolean(image?.url)) return image?.url;
-    return require("@/assets/images/image-404.png");
+    return require("@/assets/images/cat-not-found.png");
   }, [cat]);
 
   return (
     <TouchableOpacity
       onPress={navigateToCatDetail}
+      activeOpacity={0.5}
       style={[styles.card, { backgroundColor: theme.card }]}
     >
-      <View key={cat.id} style={styles.container}>
-        <Image contentFit="cover" source={catImageUrl} style={styles.image} />
+      <Image contentFit="cover" source={catImageUrl} style={styles.image} />
+      <View style={styles.container}>
         <Text numberOfLines={1} style={[styles.title, { color: theme.text }]}>
           {cat.name}
         </Text>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <MCIcon
+            size={15}
+            color="black"
+            name="map-marker-radius"
+            style={{ marginRight: 5 }}
+          />
+          <Text numberOfLines={1}>{getFlagEmoji(cat.country_code)}</Text>
+          <Text numberOfLines={1} style={{ flex: 1, fontSize: 13 }}>
+            {cat.origin}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -65,17 +82,20 @@ const styles = StyleSheet.create({
     }),
   },
   container: {
-    gap: 10,
+    gap: 5,
     padding: 10,
   },
   image: {
     width: "100%",
     aspectRatio: 1,
-    borderRadius: 10,
-    borderWidth: 2,
+    borderTopRightRadius: 10,
+    borderTopLeftRadius: 10,
+    // borderRadius: 10,
+    // borderWidth: 2,
   },
   title: {
-    textAlign: "center",
-    fontSize: 14,
+    // textAlign: "center",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
