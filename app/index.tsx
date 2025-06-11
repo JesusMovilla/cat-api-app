@@ -1,51 +1,61 @@
+import CatCard from "@/src/components/CatCard";
+import { catEndpoints } from "@/src/domain/catEndpoints";
 import { useTheme } from "@/src/hooks/useTheme";
-import { useRouter } from "expo-router";
-import { Platform, Text, View } from "react-native";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
+import { FlatList, StyleSheet, View } from "react-native";
 
 export default function Index() {
-  const { push } = useRouter();
-
-  const navigteToCatDetail = () => {
-    push({ pathname: "/cat/detail", params: { catId: "abys" } });
-  };
-
   const { theme } = useTheme();
+
+  const [searchText, setSearchText] = useState("");
+
+  const { data: catBreeds } = useQuery({
+    queryKey: ["breeds", searchText],
+    queryFn: () => getCatsBreeds(),
+  });
+
+  const getCatsBreeds = async () => {
+    const response = await catEndpoints.getCatsBreeds();
+    // console.log(response.data);
+    return response.data;
+  };
 
   return (
     <View
       style={{
         flex: 1,
-        justifyContent: "center",
         alignItems: "center",
         backgroundColor: theme.background,
       }}
     >
-      {/* <Text>Edit app/index.tsx to edit this screen.</Text> */}
-
-      <View
-        style={{
-          padding: 10,
-          backgroundColor: theme.card,
-          borderRadius: 10,
-          ...Platform.select({
-            ios: {
-              shadowOpacity: 0.2,
-              shadowRadius: 2,
-              shadowOffset: {
-                height: 2,
-                width: 0,
-              },
-            },
-            android: {
-              elevation: 5,
-            },
-          }),
+      <FlatList
+        numColumns={2}
+        data={catBreeds}
+        style={{ paddingHorizontal: 20 }}
+        indicatorStyle="black"
+        contentContainerStyle={{ paddingBottom: 50 }}
+        columnWrapperStyle={{
+          justifyContent: "center",
+          alignSelf: "flex-start",
+          gap: 15,
         }}
-      >
-        <Text onPress={navigteToCatDetail} style={{ color: theme.text }}>
-          Hola
-        </Text>
-      </View>
+        renderItem={({ item }) => <CatCard cat={item} />}
+      />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    flex: 1,
+    width: 200,
+    height: 200,
+  },
+});

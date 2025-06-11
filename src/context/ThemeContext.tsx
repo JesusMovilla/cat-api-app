@@ -1,5 +1,4 @@
 import React, { createContext, useMemo, useState } from "react";
-import { useColorScheme } from "react-native";
 import { darkTheme, lightTheme, ThemeType } from "../theme/colors";
 
 type ThemeContextType = {
@@ -20,7 +19,8 @@ interface ThemeProviderProps {
 export const ThemeProvider = (props: ThemeProviderProps) => {
   const { children } = props;
 
-  const systemScheme = useColorScheme() || "light";
+  const systemScheme = "light";
+  // const systemScheme = useColorScheme() || "light";
   const [mode, setMode] = useState<"light" | "dark">(systemScheme);
 
   const toggleTheme = () =>

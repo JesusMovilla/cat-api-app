@@ -1,5 +1,5 @@
-export interface Cat {
-  weight: Weight;
+export interface CatBreed {
+  weight: CatWeight;
   id: string;
   name: string;
   cfa_url?: string;
@@ -36,11 +36,19 @@ export interface Cat {
   wikipedia_url?: string;
   hypoallergenic: number;
   reference_image_id?: string;
+  image?: CatImage;
   cat_friendly?: number;
   bidability?: number;
 }
 
-export interface Weight {
+export interface CatImage {
+  id: string;
+  width: number;
+  height: number;
+  url: string;
+}
+
+export interface CatWeight {
   imperial: string;
   metric: string;
 }
