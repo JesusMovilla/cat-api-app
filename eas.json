@@ -1,0 +1,24 @@
+{
+  "cli": {
+    "appVersionSource": "local"
+  },
+  "build": {
+    "apk": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
+    "preview": {
+      "distribution": "internal"
+    },
+    "production": {
+      "ios": {
+        "image": "macos-sequoia-15.3-xcode-16.2"
+      }
+    }
+  }
+}

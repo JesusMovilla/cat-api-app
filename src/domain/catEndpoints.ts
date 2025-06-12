@@ -3,8 +3,10 @@ import publicFetcher from "./api/api.config";
 
 export const catEndpoints = {
   // Get cat breeds
-  getCatsBreeds: (params?: object) =>
+  getCatBreeds: (params?: object) =>
     publicFetcher<CatBreed[]>("breeds", params),
+  searchCatBreed: (params: { q: string; attach_image?: boolean }) =>
+    publicFetcher<CatBreed[]>("breeds/search", params),
   // Get cat breed detail
   getCatBreedDetail: (catId: string) =>
     publicFetcher<CatBreed>(`breeds/${catId}`),

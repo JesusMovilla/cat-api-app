@@ -1,13 +1,15 @@
+import { useTheme } from "@/src/hooks/useTheme";
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from "react-native";
 
 interface ProgressBarProps {
-  label?: string;
   progress: number;
-  color?: string;
   total: number;
+  label?: string;
+  color?: string;
 }
 export default function ProgressBar(props: ProgressBarProps) {
-  const { label, progress, color = "#fbba00", total } = props;
+  const { label, progress, color = "#000000", total } = props;
+  const { theme } = useTheme();
 
   const progressView: StyleProp<ViewStyle> = {
     width: `${(progress / total) * 100}%`,
@@ -16,9 +18,15 @@ export default function ProgressBar(props: ProgressBarProps) {
   };
 
   return (
-    <View style={{ flexDirection: "row" }}>
-      {Boolean(label) && <Text style={{ flex: 1 }}>{label}</Text>}
-      <View style={styles.bgBar}>
+    <View style={{ flexDirection: "column", flex: 1 }}>
+      {Boolean(label) && (
+        <Text
+          style={{ flex: 1, textAlign: "center", color: theme.textPrimary }}
+        >
+          {label}
+        </Text>
+      )}
+      <View style={[styles.bgBar, { backgroundColor: color + "4D" }]}>
         <View style={progressView} />
       </View>
     </View>
@@ -26,7 +34,6 @@ export default function ProgressBar(props: ProgressBarProps) {
 }
 const styles = StyleSheet.create({
   bgBar: {
-    backgroundColor: "#E4E4E4",
     borderRadius: 20,
     marginTop: 2,
     height: 13,
